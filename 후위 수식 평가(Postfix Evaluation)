@@ -1,0 +1,59 @@
+class Expression:
+    def __init__(self,expr):
+        self.stack=[]
+        self.size=100
+        self.expr=expr
+        self.top=-1
+
+    def push(self,item):
+        self.top+=1
+        self.stack.append(item)
+        self.viewStack()
+        # push에 viewStack 포함
+
+    def pop(self):
+        if len(self.stack)>0:
+            self.top-=1
+            return self.stack.pop()
+        else: print ("Stack Empty")
+
+    def viewStack(self):
+        print(self.stack)
+
+    def eval_postfix(self):
+        for sym in self.expr:
+            print(sym,end=' ')
+            sym_type=self.getSymtype(sym)
+            if sym_type == 'OPERAND':
+                # 피연산자를 만났을 때
+                self.push(int(sym))
+            else:
+                # 연산자를 만났을 때
+                op2= self.pop()
+                op1= self.pop()
+                if sym_type== 'PLUS':
+                    self.push(op1+op2)
+                elif sym_type== 'MINUS':
+                    self.push(op1-op2)
+                elif sym_type== 'TIME':
+                    self.push(op1*op2)
+                elif sym_type== 'DIVIDE':
+                    self.push(op1//op2)
+                elif sym_type== 'MOD':
+                    self.push(op1%op2)
+        return self.pop()
+
+    def getSymtype(self, sym):
+        if sym =='+': sym_type = 'PLUS'
+        elif sym =='-': sym_type = 'MINUS'
+        elif sym =='*': sym_type = 'TIME'
+        elif sym =='/': sym_type = 'DIVIDE'
+        elif sym =='%': sym_type = 'MOD'
+        else: sym_type='OPERAND'
+        return sym_type
+
+for expr in ['57*9+34/-','936+5-/7*64-*']:
+    e= Expression(expr)
+    print('수식: ', expr)
+    print('결과: ', e.eval_postfix())
+    print()
