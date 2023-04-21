@@ -1,0 +1,28 @@
+class Stack:
+    def __init__(self,size):
+        self.top=-1
+        self.stack=[]
+        self.size=size
+    def push(self,item):
+        if self.top<self.size-1:
+            # 스택이 가득 차 있지 않다면
+            self.top+=1
+            self.stack.append(item)
+        else:   print("Stack Full")
+    def pop(self):
+        if self.top>-1:
+            #스택이 비어있지 않다면
+            self.top-=1
+            return self.stack.pop()
+        else:   print("Stack Empty")
+    def viewStack(self):
+        print(self.stack)
+    
+
+s=Stack(5)
+for item in [2,4,5,6,7,8]:
+    s.push(item)
+    s.viewStack()
+for i in range(6):
+    s.pop()
+    s.viewStack()
