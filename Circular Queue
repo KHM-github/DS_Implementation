@@ -1,0 +1,42 @@
+class CQueue:
+    def __init__(self,size):
+        self.front=0
+        self.rear=0
+        self.size=size
+        self.cqueue=[None]*self.size
+        self.count=0
+    def enqueue(self, item):
+        if not self.isFull():
+            self.rear=(self.rear+1)%self.size
+            self.cqueue[self.rear]=item
+            self.count+=1
+        else:   print("Queue Full")
+    def dequeue(self):
+        if not self.isEmpty():
+            self.front=(self.front+1)%self.size
+            item=self.cqueue[self.front]
+            self.cqueue[self.front]=None
+            self.count-=1
+            return item
+        else:   print("Queue Empty")
+    def isEmpty(self):
+        # return self.count==0
+        return self.front==self.rear
+    def isFull(self):
+        # return self.count== self.size
+        return self.front==(self.rear+1)%self.size
+    def view(self):
+        print(self.cqueue)
+        print('front=%d rear=%d'%(self.front, self.rear))
+        
+q=CQueue(5)
+q.view()
+for i in range(5):
+    q.enqueue(i)
+    q.view()
+for i in range(5):
+    q.dequeue()
+    q.view()
+for i in range(5):
+    q.enqueue(i)
+    q.view()
