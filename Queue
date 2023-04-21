@@ -1,0 +1,33 @@
+class Queue:
+    def __init__(self,size):
+        self.front=-1
+        self.rear=-1
+        self.queue=[]
+        self.size=size
+    def enqueue(self,item):
+        if not self.isFull():
+            self.rear+=1
+            self.queue.append(item)
+        else:   print("Queue full")
+    def dequeue(self):
+        if not self.isEmpty():
+            self.front+=1
+            return self.queue.pop(0)
+        else:   print("Queue Empty")
+    def isEmpty(self):
+        # return len(self.queue) == 0
+        return self.front==self.rear
+    def isFull(self):
+        # return len(self.queue) == self.size
+        return self.rear==self.size-1
+    def viewQueue(self):
+        print(self.queue)
+        print("rear=%d front=%d"%(self.rear, self.front))
+    
+q=Queue(5)
+for item in [3,4,5,6,7,8]:
+    q.enqueue(item)
+    q.viewQueue()
+for i in range(6):
+    q.dequeue()
+    q.viewQueue()
