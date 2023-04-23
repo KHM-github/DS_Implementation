@@ -1,0 +1,70 @@
+class Node:
+    def __init__(self,item):
+        self.data=item
+        self.link=None
+
+class SinglyLinkedlist:
+    def __init__(self):
+        self.head=None
+        self.tail=None
+    def view(self):
+        temp=self.head
+        print('[',end='')
+        while temp:
+            print(temp.data,end='')
+            temp=temp.link
+        print(']',end='')
+        if self.head:
+            print("H= ",self.head.data,"T= ",self.tail.data)
+        else:
+            print("Empty list")
+    def isEmpty(self):
+        return not self.head # head가 존재하지 않을 때 Empty
+    def insert(self,prev,item):
+        if self.head is None: # EmptyList에 item 삽입
+            node=Node(item)
+            self.head=node
+            self.tail=node
+            return
+        node=Node(item)
+        if prev is None: # head에 item 삽입
+            node.link=self.head
+            self.head=node
+            return
+        pprev,prev=self.find(prev)
+        if prev is None: # 주어진 앞 노드가 존재하지 않을 때
+            print("Not Exist previous node")
+            return
+        else: # 앞 노드가 존재할 때
+            node.link=prev.link 
+            prev.link=node 
+            if node.link is None: # Tail에 item 삽입 
+                self.tail=node
+        
+    def delete(self,item):
+        if self.head is None: # EmptyList
+            print("Empty List")
+        prev,node=self.find(item)
+        if node is None: # 삭제할 노드 존재 X
+            print("Not Exist node")
+            return
+        if prev: # 삭제할 노드의 앞 노드 존재
+            prev.link=node.link
+            print("Delete complitely")
+        else: # Head 삭제
+            if self.head==node:
+                print("Head deleted")
+                self.head=node.link
+        if node == self.tail: # Tail 삭제
+            self.tail=prev
+        del node # 링크가 끊어진 노드 삭제
+    def find(self, item): # find로 목표 노드와 previous 노드 return
+        if not self.head: return None,None # EmptyList
+        temp=self.head
+        prev=None
+        while temp:
+            if temp.data==item:
+                return prev,temp
+            prev=temp # 순차적으로 리스트 탐색
+            temp=temp.link
+        return None,None # 목표 노드가 없을 때, (None,None) 리턴
