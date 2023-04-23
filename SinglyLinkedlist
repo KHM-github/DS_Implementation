@@ -21,41 +21,41 @@ class SinglyLinkedlist:
     def isEmpty(self):
         return not self.head # head가 존재하지 않을 때 Empty
     def insert(self,prev,item):
-        if self.head is None: # EmptyList에 item 삽입
+        if self.head is None: # 1. EmptyList에 item 삽입
             node=Node(item)
             self.head=node
             self.tail=node
             return
         node=Node(item)
-        if prev is None: # head에 item 삽입
+        if prev is None: # 2. head에 item 삽입
             node.link=self.head
             self.head=node
             return
         pprev,prev=self.find(prev)
-        if prev is None: # 주어진 앞 노드가 존재하지 않을 때
+        if prev is None: # 3. 주어진 앞 노드가 존재하지 않을 때
             print("Not Exist previous node")
             return
-        else: # 앞 노드가 존재할 때
+        else: # 4. 앞 노드가 존재할 때
             node.link=prev.link 
             prev.link=node 
-            if node.link is None: # Tail에 item 삽입 
+            if node.link is None: # 4-1. Tail에 item 삽입 
                 self.tail=node
         
     def delete(self,item):
-        if self.head is None: # EmptyList
+        if self.head is None: # 1. EmptyList
             print("Empty List")
         prev,node=self.find(item)
-        if node is None: # 삭제할 노드 존재 X
+        if node is None: # 2. 삭제할 노드 존재 X
             print("Not Exist node")
             return
-        if prev: # 삭제할 노드의 앞 노드 존재
+        if prev: # 3. 삭제할 노드의 앞 노드 존재
             prev.link=node.link
             print("Delete complitely")
-        else: # Head 삭제
+        else: # 4. Head 삭제
             if self.head==node:
                 print("Head deleted")
                 self.head=node.link
-        if node == self.tail: # Tail 삭제
+        if node == self.tail: # 5. Tail 삭제
             self.tail=prev
         del node # 링크가 끊어진 노드 삭제
     def find(self, item): # find로 목표 노드와 previous 노드 return
@@ -68,3 +68,40 @@ class SinglyLinkedlist:
             prev=temp # 순차적으로 리스트 탐색
             temp=temp.link
         return None,None # 목표 노드가 없을 때, (None,None) 리턴
+    
+    # 리스트 길이 연산 length_list
+    def length_list(self):
+        count=0
+        temp=self.head
+        while temp: # 다음 노드가 있다면
+            count+=1 # count 1 증가
+            temp=temp.link # 한칸씩 전진
+        return count
+
+    # 리스트 연결 연산 concat   
+    def concat(self, second):
+        if self.head is None: # 첫 리스트가 EmptyList
+            return second
+        elif second: # second가 존재
+            temp=self.head
+            while temp.link:
+                temp=temp.link
+            temp.link=second # first의 tail.link = second 의 head
+            while second.link: # 다음 노드가 있다면
+                second=second.link # second를 tail까지 전진
+            self.tail=second # second의 tail이 전체의 tail
+        return self.head
+    
+    # 역리스트 연산 reverse
+    def reverse(self):
+        one=self.head
+        two=three=None
+        self.tail=self.head
+        while one: # one이 존재한다면
+            three=two # 모두 한칸씩 전진
+            two=one
+            one=one.link
+            two.link=three # two, three의 노드 방향 바꿈
+        self.head=two 
+        # two가 원래 리스트의 tail까지 가있음
+        # two를 리스트의 head로 지정하여 역리스트 연산 마무리
