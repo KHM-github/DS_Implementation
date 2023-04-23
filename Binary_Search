@@ -1,0 +1,13 @@
+# count=0
+def binary_search(left,right,datalist,item):
+    # global count
+    # count+=1
+    if left<right:
+        mid=(left+right)//2
+        if datalist[mid]==item: return mid
+        elif datalist[mid] > item :
+            return binary_search(left,mid-1,datalist,item)
+        else:
+            return binary_search(mid+1,right,datalist,item)
+
+# global 변수 count는 recursion의 호출 횟수를 알고 싶을 때 사용
