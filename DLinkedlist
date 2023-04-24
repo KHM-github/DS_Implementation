@@ -1,0 +1,62 @@
+class Node:
+    def __init__(self, item):
+        self.data=item
+        self.rlink=None
+        self.llink=None
+
+class DLinkedlist:
+    def __init__(self):
+        self.head=Node(0)
+        self.head.rlink=self.head
+        self.head.llink=self.head
+    def view(self):
+        temp=self.head.rlink
+        print('[',end='')
+        while temp!=self.head:
+            print(temp.data, end='')
+            temp=temp.rlink
+        print(']', end='')
+        if not self.isEmpty():
+            print("H= ",self.head.data,"R= ",self.head.rlink.data,"L= ",self.head.llink.data)
+    def isEmpty(self):
+        return self.head.rlink==self.head # Head의 Left와 Right가 연결됨
+    def insertDLL(self,prev,item):
+        node=Node(item)
+        self.head.data+=1
+        if self.isEmpty(): # 빈 리스트에 item 삽입
+            node.llink=self.head
+            node.rlink=self.head
+            self.head.rlink=node
+            self.head.llink=node
+        else:
+            prev=self.find(prev)
+            if prev is None:
+                print("Not Exist previous node data")
+                return
+            node.llink=prev
+            node.rlink=prev.rlink
+            prev.rlink.llink=node
+            prev.rlink=node
+    def deleteDLL(self, item):
+        if self.isEmpty():
+            print("Empty List")
+            return
+        node=self.find(item)
+        if not node:
+            print("Not Exist node")
+            return
+        if self.head==node:
+            print("Head can't be deleted")
+            return
+        self.head.data-=1
+        node.rlink.llink=node.llink # node 양쪽 노드 연결해주기
+        node.llink.rlink=node.rlink
+        del node
+    def find(self, item):
+        temp=self.head.rlink
+        while temp!= self.head:
+            if temp.data==item:
+                return temp
+            temp=temp.rlink
+        return None
+
