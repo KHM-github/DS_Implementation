@@ -1,0 +1,95 @@
+class Node:
+    def __init__(self,item):
+        self.data=item
+        self.link=None
+
+class Circularlist:
+    def __init__(self):
+        self.head=None
+        self.tail=None
+    def view(self):
+        temp=self.head
+        print('[',end='')
+        while temp:
+            print(temp.data,end='')
+            temp=temp.link
+        print(']',end='')
+        if self.head:
+            print("H= ",self.head.data,"T= ",self.tail.data)
+        else:
+            print("Empty list")
+    def isEmpty(self):
+        return not self.head # head가 존재하지 않을 때 Empty
+    def add_rear(self, item):
+        node=Node(item)
+        if self.head is None:
+            self.head = node
+            self.tail= node
+        else:
+            self.tail.link=node
+            self.tail=node
+        node.link=self.head 
+    def c_insert(self,prev,item):
+        if self.head is None: # 1. EmptyList에 item 삽입
+            node=Node(item)
+            self.head=node
+            self.tail=node
+            node.link=self.head # 삽입 node가 head이자 tail
+            return
+        node=Node(item)
+        if prev is None: # 2. head에 item 삽입
+            node.link=self.head
+            self.head=node
+            return
+        pprev,prev=self.find(prev)
+        if prev is None: # 3. 주어진 앞 노드가 존재하지 않을 때
+            print("Not Exist previous node")
+            return
+        else: # 4. 앞 노드가 존재할 때
+            if prev.link==self.head:    
+                self.tail=node # 4-1 Tail에 item 삽입
+            node.link=prev.link 
+            prev.link=node
+    def find(self, item): # find로 목표 노드와 previous 노드 return
+        if not self.head: return None,None # EmptyList
+        temp=self.head
+        prev=None
+        while temp:
+            if temp.data==item:
+                return prev,temp
+            prev=temp # 순차적으로 리스트 탐색
+            temp=temp.link
+            if temp==self.head: break
+        return None,None # 목표 노드가 없을 때, (None,None) 리턴
+    def c_delete(self,item):
+        if self.head is None: # 1. EmptyList
+            print("Empty List")
+        prev,node=self.find(item)
+        if node is None: # 2. 삭제할 노드 존재 X
+            print("Not Exist node")
+            return
+        if prev: # 3. 삭제할 노드의 앞 노드 존재
+            prev.link=node.link
+            print("Delete complitely")
+            if self.tail==node:  # 4. Tail 삭제
+                self.tail=prev
+        else: # 5. Head 삭제
+            if self.head==node:
+                print("Head deleted")
+                self.head=node.link
+            if self.tail== node: # 6. 리스트에 노드가 1개만 있음
+                self.tail=self.head
+        del node # 링크가 끊어진 노드 삭제
+    
+    # 리스트 길이 연산 length_list
+    def length_list(self):
+        if not self.head:
+            return 0
+        # Tail-Head가 연결되어있음 -> Head가 None인지 확인 필요
+        count=0
+        temp=self.head
+        while temp: # 다음 노드가 있다면
+            count+=1 # count 1 증가
+            temp=temp.link # 한칸씩 전진
+            if temp==self.head: break # Head 만나면 break
+        return count
