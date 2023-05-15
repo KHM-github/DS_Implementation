@@ -1,0 +1,85 @@
+class Node:
+    def __init__(self, item):
+        self.data=item
+        self.rchild=None
+        self.lchild=None
+
+class Tree:
+    def __init__(self):
+        self.queue=[]
+        self.stack=[]
+
+    def levelorder(self, node):
+        if not node:return # node(보통 root)가 None일 때
+        self.queue.append(node) # root를 queue에 넣기
+        print(' ', end=' ')
+        while len(self.queue)>0: 
+            self.viewQueue() # queue 출력
+            node=self.queue.pop(0) # dequeue
+            print(node.data, end=' ') # dequeue한 node 출력
+            if node.lchild: # left child enqueue
+                self.queue.append(node.lchild)
+            if node.rchild: # right childe enqueue
+                self.queue.append(node.rchild)
+        self.viewQueue() 
+
+    def postorder(self,ptr): # 후위
+        if ptr:
+            self.stack.append(ptr.data) # stack에 포인터의 data push
+            print(' ',self.stack)
+            self.postorder(ptr.lchild) # left -> right -> parent
+            self.postorder(ptr.rchild)
+            print(ptr.data,end=' ') # parent 출력 후 pop
+            self.stack.pop()
+            print(self.stack)
+
+    def inorder(self, ptr): # 중위
+        if ptr:
+            self.stack.append(ptr.data)
+            print(' ', self.stack)
+            self.inorder(ptr.lchild) # left -> parent -> right
+            print(ptr.data, end=' ')
+            self.stack.pop()
+            print(self.stack)
+            self.inorder(ptr.rchild)
+
+    def preorder(self, ptr): # 전위
+        if ptr:
+            self.stack.append(ptr.data)
+            print(' ',self.stack)
+            print(ptr.data,end=' ') # parent 출력 후 pop
+            self.stack.pop()
+            print(self.stack)
+            self.preorder(ptr.lchild) # parent -> left -> right
+            self.preorder(ptr.rchild)
+    
+    def viewQueue(self):
+        print('[', end=' ')
+        for item in self.queue:
+            print(item.data, end=' ')
+        print(']')
+
+# 예제 
+
+root=Node('-')
+node1=root.lchild=Node('+')
+node2=root.rchild=Node('/')
+node1.lchild=Node('*')
+node1.rchild=Node('C')
+node2.lchild=Node('D')
+node2.rchild=Node('E')
+node1.lchild.lchild=Node('A')
+node1.lchild.rchild=Node('B')
+t=Tree()
+
+print('Level Order')
+t.levelorder(root)
+print()
+print('Postorder')
+t.postorder(root)
+print()
+print('Inorder')
+t.inorder(root)
+print()
+print('Preorder')
+t.preorder(root)
