@@ -59,7 +59,7 @@ class Tree:
             print(item.data, end=' ')
         print(']')
 
-# 예제 
+# Example 
 
 root=Node('-')
 node1=root.lchild=Node('+')
