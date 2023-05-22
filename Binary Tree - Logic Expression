@@ -1,0 +1,53 @@
+class Node:
+    def __init__(self, item):
+        self.data=item
+        self.value=None
+        self.rchild=None
+        self.lchild=None
+
+# 논리 연산식 평가
+# value에 boolean을 저장하는 연산식
+class Tree:
+    # postfix 형식
+    def evaluateBool(self, node):
+        if node:
+            self.evaluateBool(node.lchild)
+            self.evaluateBool(node.rchild)
+            # 연산자(or, and, not)를 만났을 때
+            if node.data== 'or':
+                node.value=node.lchild.value or node.rchild.value
+                print("%3s"%node.data,":",node.value)
+            elif node.data=='and':
+                node.value=node.lchild.value and node.rchild.value
+                print("%3s"%node.data,":",node.value)
+            elif node.data=='not':
+                # parent 가 'not'인 경우, chlid를 rchild에 넣음
+                node.value=not node.rchild.value
+            elif node.data=='TRUE':
+                node.value=True
+            elif node.data =='FALSE':
+                node.value=False
+            else:
+                print("%3s"%node.data,":",node.value)
+
+# Example: (A and B) or (~C ) or ~E
+
+root=Node('or')
+node1=root.lchild=Node('or')
+node2=root.rchild=Node('not')
+node1.lchild=Node('and')
+node1.rchild=Node('not')
+node2.rchild=Node('E')
+node2.rchild.value=False
+node1.lchild.lchild=Node('A')
+node1.lchild.lchild.value=True
+node1.lchild.rchild=Node('B')
+node1.lchild.rchild.value=True
+node1.rchild.rchild=Node('C')
+node1.rchild.rchild.value=False
+
+t=Tree()
+print('Tree EvaluateBool')
+print()
+t.evaluateBool(root)
+print("result = ", root.value) 
