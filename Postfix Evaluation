@@ -52,6 +52,7 @@ class Expression:
         else: sym_type='OPERAND'
         return sym_type
 
+# Example
 for expr in ['57*9+34/-','936+5-/7*64-*']:
     e= Expression(expr)
     print('수식: ', expr)
