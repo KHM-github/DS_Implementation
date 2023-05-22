@@ -28,7 +28,8 @@ class CQueue:
     def view(self):
         print(self.cqueue)
         print('front=%d rear=%d'%(self.front, self.rear))
-        
+  
+# Example 
 q=CQueue(5)
 q.view()
 for i in range(5):
