@@ -1,0 +1,66 @@
+# Max Heap
+# 배열로 구현
+
+class Heap:
+    def __init__(self,size):
+        self.size=size
+        self.heap=[None]*size
+        self.count=0
+    def __str__(self):
+        return "Heap, 0 is Dummy"
+    
+    def isEmpty(self): return self.count==0
+    def isFull(self): return self.size-1==self.count
+
+    # 삽입 연산
+    # 트리의 마지막 위치에 삽입, 부모와의 반복적 비교로 자리 찾기
+    def add_heap(self, item):
+        if self.isFull():return
+        self.count+=1
+        i= self.count # i에 트리 마지막 위치의 index 저장
+        while i!=1 and item>self.heap[i//2]: # 루트까지 비교 반복
+            self.heap[i]=self.heap[i//2] # 부모 < item이라면 부모를 item자리에 넣고
+            i//=2 # i를 한 level 위로 올린다
+        self.heap[i]=item # 찾은 자리(인덱스 i)에 item 삽입
+
+    # 삭제 연산
+    # "루트 노드"의 삭제 후 마지막 노드를 루트로 가져와 shiftdown
+    def del_heap(self): # 최대 힙에서의 삭제는 루트의 삭제 -> 입력값 X
+         if self.isEmpty():
+             print("Empty heap")
+             return
+         item=self.heap[1] # root를 item에 저장
+         temp= self.heap[self.count] # 마지막 노드를 temp에 저장
+         self.heap[self.count]=None # 마지막 노드를 root로 끌어옴
+         self.count-=1
+
+         parent=1 # 제일 위의 노드 부터 shiftdown 시작
+         child=2
+
+         while child <= self.count: # 비교할 자식 노드가 있는 동안
+                # 자식 노드 중 더 큰 것을 기준으로 함
+                if child < self.count and self.heap[child] < self.heap[child+1]:
+                     child+=1
+                if temp >= self.heap[child]: break # 자식이 더 작다면 temp 고정
+
+                self.heap[parent]=self.heap[child] # child를 parent 자리로 올리고
+                parent=child
+                child*=2 # parent, child 모두 한 level 씩 내려감(shiftdown)
+         if self.count!=0: # 마지막 하나를 삭제하는 과정에서 temp <-> item 무한루프 방지
+             self.heap[parent]=temp # 찾은 자리(parent)에 temp 삽입
+         return item # 삭제한 root를 return
+
+# Example
+           
+h=Heap(10)
+num=[11,7,5,9,8,15,23]
+print(h)
+print("Insert into Heap")
+for i in num:
+    h.add_heap(i)
+print("count=", h.count)
+print("delete from Heap")
+for i in range(h.count):
+    print(h.heap)
+    print(h.del_heap(), end=' =>')
+print(h.heap)
