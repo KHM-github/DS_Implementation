@@ -35,7 +35,7 @@ class Tree:
                 node.value=int(node.data)
                 print("%3s"%node.data,':',node.value )
 
-# (4*5+3) - (8/2)
+# Example: (4*5+3) - (8/2)
 
 root=Node('-')
 node1=root.lchild=Node('+')
