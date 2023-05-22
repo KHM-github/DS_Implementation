@@ -1,0 +1,54 @@
+class Node:
+    def __init__(self, item):
+        self.data=item
+        self.value=None
+        self.rchild=None
+        self.lchild=None
+
+# 산술 연산식 평가
+# value 에 산술 연산 결과(int)를 저장
+# postfix 형식
+
+class Tree:
+    def evaluate(self, node):
+        if node:
+            self.evaluate(node.lchild)
+            self.evaluate(node.rchild)
+            # data가 연산자(+,*,-,/,%) -> lchild와 rchild의 value끼리 연산
+            if node.data=='+':
+                node.value=node.lchild.value + node.rchild.value
+                print("%3s"%node.data,':',node.value )
+            elif node.data=='*':
+                node.value=node.lchild.value * node.rchild.value
+                print("%3s"%node.data,':',node.value )
+            elif node.data=='-':
+                node.value=node.lchild.value - node.rchild.value
+                print("%3s"%node.data,':',node.value )
+            elif node.data=='/':
+                node.value=node.lchild.value // node.rchild.value
+                print("%3s"%node.data,':',node.value )
+            elif node.data=='%':
+                node.value=node.lchild.value % node.rchild.value
+                print("%3s"%node.data,':',node.value )
+            # data가 피연산자 -> 노드의 value에 data 저장
+            else:
+                node.value=int(node.data)
+                print("%3s"%node.data,':',node.value )
+
+# (4*5+3) - (8/2)
+
+root=Node('-')
+node1=root.lchild=Node('+')
+node2=root.rchild=Node('/')
+node1.lchild=Node('*')
+node1.rchild=Node('3')
+node2.lchild=Node('8')
+node2.rchild=Node('2')
+node1.lchild.lchild=Node('4') 
+node1.lchild.rchild=Node('5')
+
+t=Tree()
+print('Tree Evaluate')
+print()
+t.evaluate(root)
+print("result = ", root.value) 
