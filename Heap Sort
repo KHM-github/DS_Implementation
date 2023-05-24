@@ -1,0 +1,37 @@
+# Heap Sort
+# makeheap(), shiftdown() 이용
+
+class Heap:
+    def __init__(self,size):
+        self.size=size
+        self.heap=[None]*size
+        self.count=0
+    def __str__(self):
+        return "Heap, 0 is Dummy"
+
+    def shiftdown(self, root, n):
+        temp=self.heap[root] # 시작할 노드 root
+        child=2*root # root의 자식노드 child
+        while child <= n: # 비교할 자식이 있을 때 까지
+            if child < n and self.heap[child]<self.heap[child+1]:
+                child+=1 # child 중 더 큰 것으로 비교
+            if temp > self.heap[child]: break
+            else: # child가 parent보다 크다면
+                self.heap[child//2]=self.heap[child] # child를 올려보내고
+                child*=2 # 한 level 내려간다
+        self.heap[child//2]=temp    
+    def swap(self, a, b):
+        temp=self.heap[a]
+        self.heap[a]=self.heap[b]
+        self.heap[b]=temp
+    def makeheap(self, root, n): # heap을 생성하려면
+        for i in range(n//2,0,-1): # leaf 노드를 제외한 노드들에서
+            self.shiftdown(i,n) # shiftdown() 한다
+    
+    def sort(self, list):
+        self.heap=list
+        self.count=len(list)-1
+        self.makeheap(1,self.count) # 주어진 리스트를 heap으로 만든 후
+        for i in range(self.count,0,-1):
+            self.swap(1,i) # root와 swap하여 shiftdown()
+            self.shiftdown(1,i-1) # 마지막 노드부터 root까지 반복한다
