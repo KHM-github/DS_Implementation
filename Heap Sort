@@ -35,3 +35,10 @@ class Heap:
         for i in range(self.count,0,-1):
             self.swap(1,i) # root와 swap하여 shiftdown()
             self.shiftdown(1,i-1) # 마지막 노드부터 root까지 반복한다
+            h=Heap(11)
+            
+print('Heap Sort')
+list=[0,2, 4, 5, 3, 1, 9, 6, 7, 10, 8] 
+print('정렬 전:', list)
+h.sort(list)
+print('정렬 후:',h.heap)
