@@ -1,0 +1,38 @@
+# 선택 정렬 (Selection Sort)
+# 오른쪽 리스트의 최솟값을 왼쪽 리스트의 맨뒤로 이동
+
+class SelectionSort:
+    def __init__(self, num):
+        self.num=num
+        self.size=len(num)
+    def __str__(self):
+        return "Selection Sort"
+    def swap(self, a, b):
+        self.num[a], self.num[b]=self.num[b],self.num[a]
+    def sort(self):
+        n=self.size
+        for i in range(n-1):
+            smallest=i # smallest 초기값 설정
+            for j in range(i+1,n):
+                if num[j] < num[smallest]:
+                    smallest=j
+            self.swap(i, smallest) 
+            print(self.num)
+
+# Example
+
+num=[31, 10, 9, 23, 49, 15, 11, 7]
+s=SelectionSort(num)
+print(s)
+print(num)
+print()
+s.sort()
+
+print()
+
+num=[9, 5, 2, 7, 4, 6, 3]
+s=SelectionSort(num)
+print(s)
+print(num)
+print()
+s.sort()
