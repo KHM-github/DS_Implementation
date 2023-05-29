@@ -1,0 +1,64 @@
+# 합병 정렬
+# 정렬할 리스트를 두 부분으로 나눠, 나눠진 부분에 대해 각각 정렬 수행
+# 정렬된 두부분을 합병하여 하나의 정렬된 리스트로 만듦
+
+class MergeSort:
+    def __init__(self, num):
+        self.num=num
+        self.size=len(num)
+    def __str__(self):
+        return "Merge Sort"
+    def swap(self, a, b):
+        self.num[a], self.num[b]=self.num[b],self.num[a]
+    
+    def sort(self, left, right): # 분할과 합병을 반복
+        if left<right:
+            mid=(left+right)//2
+            self.sort(left, mid)
+            self.sort(mid+1, right)
+            self.merge(left, mid, right)
+            print(self.num)
+    
+    def merge(self, left, mid, right):
+        pos=left
+        left_end= mid
+        right_start=mid+1
+        n=right-left+1
+        temp=[None]*self.size
+        # 분할된 리스트들의 앞쪽 값부터 비교하여 더 작은 값을 temp에 넣음
+        while left <= left_end and right_start <= right:
+            if self.num[left] <= self.num[right_start]:
+                temp[pos]=num[left]
+                pos+=1
+                left+=1
+            else:
+                temp[pos]=num[right_start]
+                pos+=1
+                right_start+=1
+        while left <= left_end: # left가 남았다면 그대로 temp에 붙임
+            temp[pos]=num[left]
+            pos+=1
+            left+=1
+        while right_start<= right: # right가 남았다면 그대로 temp에 붙임
+            temp[pos]=num[right_start]
+            pos+=1
+            right_start+=1
+        for i in range(n): # temp를 num에 덮어씌움
+            self.num[right]=temp[right]
+            right-=1
+
+# Example
+
+num=[31, 10, 9, 23, 49, 15, 11, 7]
+s=MergeSort(num)
+print(s)
+print(num)
+s.sort(0, len(num)-1)
+
+print()
+
+num=[9, 5, 2, 7, 4, 6, 3]
+s=MergeSort(num)
+print(s)
+print(num)
+s.sort(0, len(num)-1)
