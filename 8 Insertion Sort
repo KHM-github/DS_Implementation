@@ -1,0 +1,41 @@
+# 삽입 정렬
+# 정렬된 부분에 새로운 레코드를 올바른 위치에 삽입
+
+class InsertionSort:
+    def __init__(self, num):
+        self.num=num
+        self.size=len(num)
+    def __str__(self):
+        return "Selection Sort"
+    def swap(self, a, b):
+        self.num[a], self.num[b]=self.num[b],self.num[a]
+
+    def sort(self):
+        n=self.size
+        for i in range(1,n):
+            temp=self.num[i] # temp 에 [i] 저장
+            j=i-1 # j = i-1 부터 시작
+            # [i] 기준 0~i-1 리스트를 선형탐색
+            while j>=0 and self.num[j]>temp: # [j]가 temp보다 크다면
+                self.num[j+1]=self.num[j] # [j+1]에 [j] 저장 후 j--
+                j=j-1 
+            self.num[j+1]=temp # temp 자리 결정
+            print(self.num)
+
+# Example
+
+num=[31, 10, 9, 23, 49, 15, 11, 7]
+s=InsertionSort(num)
+print(s)
+print(num)
+print()
+s.sort()
+
+print()
+
+num=[9, 5, 2, 7, 4, 6, 3]
+s=InsertionSort(num)
+print(s)
+print(num)
+print()
+s.sort()
