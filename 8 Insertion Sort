@@ -6,7 +6,7 @@ class InsertionSort:
         self.num=num
         self.size=len(num)
     def __str__(self):
-        return "Selection Sort"
+        return "Insertion Sort"
     def swap(self, a, b):
         self.num[a], self.num[b]=self.num[b],self.num[a]
 
