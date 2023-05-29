@@ -1,4 +1,4 @@
-# 선택 정렬 (Selection Sort)
+# 선택 정렬
 # 오른쪽 리스트의 최솟값을 왼쪽 리스트의 맨뒤로 이동
 
 class SelectionSort:
