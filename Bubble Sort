@@ -1,0 +1,41 @@
+# 버블 정렬
+# 인접한 2개의 레코드 비교 + 순서대로 교환
+# 끝으로 이동한 레코드를 제외하고 반복
+
+class BubbleSort:
+    def __init__(self, num):
+        self.num=num
+        self.size=len(num)
+    def __str__(self):
+        return "Selection Sort"
+    def swap(self, a, b):
+        self.num[a], self.num[b]=self.num[b],self.num[a]
+
+    def sort(self):
+        n=self.size
+        for i in range(n-1):
+            flag=0
+            for j in range(n-1-i):
+                if num[j] > num[j+1]:
+                    self.swap(j,j+1)
+                    flag=1
+            if flag==0: break # swap을 수행하지 않았다면, break
+            print(self.num)
+
+# Example
+
+num=[31, 10, 9, 23, 49, 15, 11, 7]
+s=BubbleSort(num)
+print(s)
+print(num)
+print()
+s.sort()
+
+print()
+
+num=[9, 5, 2, 7, 4, 6, 3]
+s=BubbleSort(num)
+print(s)
+print(num)
+print()
+s.sort()
