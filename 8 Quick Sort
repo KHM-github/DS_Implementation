@@ -1,0 +1,49 @@
+# 퀵 정렬
+# 피봇을 정해 크기순으로 left&right segment를 정함
+# 각 segment에서 동일 작업 반복(재귀 형태)
+
+class QuickSort:
+    def __init__(self, num):
+        self.num=num
+        self.size=len(num)
+    def __str__(self):
+        return "Quick Sort"
+    def swap(self, a, b):
+        self.num[a], self.num[b]=self.num[b],self.num[a]
+
+    def sort(self, left, right):
+        if left < right:
+            i= left
+            j= right+1
+            pivot= num[left] # pivot: 가장 왼쪽 원소
+            while True:
+                while True:
+                    i+=1 # i를 증가시키며 pivot보다 큰 data에서 stop
+                    if i>right or num[i]>=pivot: break
+                while True: 
+                    j-=1 # j를 감소시키며 pivot보다 작은 data에서 stop
+                    if j<left or num[j]<= pivot: break
+                if i<j: # 엇갈리지 않았다면, i와 j를 swap
+                    self.swap(i,j)
+                    print(self.num)
+                else: break # 엇갈렸다면(더 이상 swap 할 data가 없다면) break
+            self.swap(left, j) # pivot을 j 와 swap한다
+            if left != j: print(self.num)
+            self.sort(left, j-1) # left segment에서 반복
+            self.sort(j+1, right) # right segment에서 반복
+
+# Example
+
+num=[31, 10, 9, 23, 49, 15, 11, 7]
+s=QuickSort(num)
+print(s)
+print(num)
+s.sort(0, len(num)-1)
+
+print()
+
+num=[26, 5, 37, 1, 61, 11, 59, 15, 48, 19] 
+s=QuickSort(num)
+print(s)
+print(num)
+s.sort(0, len(num)-1)
