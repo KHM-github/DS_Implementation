@@ -1,0 +1,14 @@
+# 보간 탐색
+# 이진 탐색과 달리, 리스트를 불균등하게 분할
+# (list[right] – list[left]) : (key – list[left]) = (right – left) : (pos – left)
+
+def interpolate_search(num, key, left, right):
+    while left <= right:
+        if key < num[left] or key > num[right]: break # key가 리스트에 없음
+        pos= left+(key-num[left]*(right-left))//(num[right]-num[left])
+        if key > num[pos]: # key가 pos보다 크다면
+            left=pos+1 # 오른쪽 리스트 탐색
+        elif key < num[pos]: # key가 pos보다 작다면
+            right=pos-1 # 왼쪽 리스트 탐색
+        else: return pos # 찾았다면, pos return
+    return -1
