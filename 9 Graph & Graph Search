@@ -1,0 +1,64 @@
+# 그래프와 그래프 탐색
+# Dictionary로 구현한 그래프
+# 재귀로 구현한 DFS, 큐로 구현한 BFS
+
+class Node:
+    def __init__(self, value):
+        self.data=value
+
+class Graph:
+    def __init__(self):
+        self.graph={} # 그래프를 dictionary로 구현
+        self.visit=[] # DFS, BFS 에서 활용할 방문완료한 list
+        self.queue=[] # BFS 에서 활용할 queue
+
+    def create(self, v, data): # v -> Node(data) 간선 생성
+        node=Node(data) # Node(data) 정점 생성
+        if v not in self.graph: # v가 그래프 key에 없다면
+            self.graph[v]=[] # v를 key로 하는 value list 생성
+        self.graph[v].append(node) # node를 v의 value로 append
+        
+    def show(self):
+        for no, alist in self.graph.items():
+            print('[',no,']', end=' ')
+            for node in alist:
+                print(node.data, end=' ')
+            print()
+        
+    def addq(self, v): self.queue.append(v)
+
+    def deleteq(self):
+        if self.queue:
+            return self.queue.pop(0)
+        else:
+            print("Queue Empty")
+
+    def dfs(self, v): # 정점 v에서 시작하는 DFS
+        self.visit.append(v) # 방문 리스트에 v append
+        for node in self.graph[v]: # v의 인접 정점에 대해
+            if node.data not in self.visit: # 방문 리스트에 인접 정점이 없다면
+                self.dfs(node.data) # dfs 재호출
+        
+    def bfs(self, v): # 정점 v에서 시작하는 BFS
+        self.visit.append(v) # 방문 리스트에 v append
+        self.addq(v) # queue에 v append
+        while self.queue: # queue가 empty일 때 까지
+            v=self.deleteq() # dequeue 후
+            for node in self.graph[v]: # v의 인접 정점에 대해
+                if node.data not in self.visit: # 방문 리스트에 인접 정점이 없다면
+                    self.visit.append(node.data) # 방문 리스트에 추가
+                    self.addq(node.data) # queue에도 추가
+        
+# Example
+
+g=Graph()
+for v, node in [(1,2), (1,3),(2,1),(2,4),(2,5),(2,7),(3,1),(3,4),(3,5),\
+(4,2),(4,3),(4,7),(5,2),(5,3),(5,6),(5,8),(6,5),(6,7),\
+(6,8),(7,2),(7,4),(7,6),(8,5),(8,6)]:
+    g.create(v, node)
+g.show()
+g.dfs(1)
+print('dfs', g.visit)
+g.visit=[]
+g.bfs(1)
+print('bfs', g.visit)
