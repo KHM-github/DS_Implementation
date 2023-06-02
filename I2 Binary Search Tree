@@ -1,0 +1,123 @@
+# 이진 탐색 트리
+
+class Node:
+    def __init__(self, data):
+        self.data=data
+        self.left=None
+        self.right=None
+
+class BST:
+    def __init__(self):
+        self.root=None
+    
+    def insert_node(self, item):
+        node=Node(item)
+        if not self.root: self.root=node # 공집합 트리
+        else:
+            temp=self.root # temp 에 root
+            parent=None # parent 도 저장 시작
+            while True:
+                parent=temp # 한 level 내려감
+                if item < parent.data: # 삽입할 item이 parent보다 작다면
+                    temp=parent.left # temp가 왼쪽으로
+                    if temp==None: # 자리를 찾았을 경우
+                        parent.left=node # 찾은 자리에 node를 삽입
+                        return
+                elif item > parent.data: # 삽입할 item이 parent보다 크다면
+                    temp=parent.right # temp가 오른쪽으로
+                    if temp==None: # 자리를 찾았을 경우
+                        parent.right=node # 찾은 자리에 node를 삽입
+                        return
+                else: return # item이 이미 tree에 존재할 경우
+
+    def delete_node(self, data):
+        if self.root == None: return None # 공집합 트리
+
+        parent = None
+        node = self.root
+        while node != None and node.data != data: # 삭제할 data search
+            parent=node
+            if data < parent.data: node=parent.left
+            else: node=parent.right
+        
+        if node ==None: return None # 삭제할 data가 tree에 없는 경우
+        if node.left == None and node.right == None: # data가 leaf node인 경우
+            self.delete_node_case1(parent,node,self.root) # case 1
+        elif node.left ==None or node.right==None: # data가 하나의 child 보유
+            self.delete_node_case2(parent,node,self.root) # case 2
+        else: # data가 두개의 child 보유
+            self.delete_node_case3(parent, node,self.root) # case 3
+        
+    def levelorder(self, ptr): 
+        Q=[]
+        if ptr:
+            Q.append(ptr)
+            i=0
+            while len(Q)!=0:
+                tmp=Q.pop(0)
+                i+=1
+                tmp.key=i
+                print(tmp.data,end=' ')
+                if tmp.left: Q.append(tmp.left)
+                if tmp.right: Q.append(tmp.right)
+    
+    def delete_node_case1(self, parent, node, root): # data가 leaf node인 경우
+        if parent is None: # parent가 None, 즉 node가 root
+            root=None # root 삭제
+        else:
+            if parent.left == node: # node가 parent의 left일 때
+                parent.left=None # parent.left 삭제
+            else: # node가 parent의 right일 때
+                parent.right=None # parent.right 삭제
+        if node==self.root:
+            self.root=root
+        
+    def delete_node_case2(self, parent, node, root): # data가 하나의 child 보유
+        if node.left is not None: # node의 child가 left
+            child = node.left
+        else: # node의 child가 right
+            child=node.right
+        if node==root:
+            root=child
+        else:
+            if node is parent.left: # node가 parent의 left
+                parent.left=child
+            else: # node가 parent의 right
+                parent.right=child
+        if node == self.root:
+            self.root=root
+        return root
+    
+    def delete_node_case3(self, parent, node, root):
+        # data가 두개의 child 보유
+        # node의 왼쪽 서브트리의 최댓값을 찾아 node에 넣기
+        succ_p=node 
+        succ= node.left
+        while succ.right != None:
+            succ_p=succ
+            succ=succ.right
+        
+        if succ_p.right==succ: # level을 내려가 succ을 찾았을 때
+            succ_p.right=succ.left # succ의 parent에 succ의 child 삽입
+        else: # succ가 node.left일 때
+            succ_p.left=succ.left # succ의 parent에 succ의 child 삽입
+        
+        node.data=succ.data # node에 succ 삽입
+        node=succ
+        if node==self.root:
+            self.root=root
+        return root
+    
+# Example
+
+bst=BST()
+for i in [30,20,5, 60, 25, 50, 40, 70, 40, 55, 51]:
+    bst.insert_node(i)
+    bst.levelorder(bst.root)
+    print()
+print()
+for i in [30,20,5, 60, 25, 50, 40, 70, 40, 55, 51]:
+    bst.delete_node(i)
+    bst.levelorder(bst.root)
+    print()
+print()
