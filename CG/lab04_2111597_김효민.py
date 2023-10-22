@@ -1,3 +1,5 @@
+# 사각형 두개 벽 만나면 부딪힘
+
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
