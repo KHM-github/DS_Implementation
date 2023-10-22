@@ -1,3 +1,5 @@
+# 드래그로 Rectangle 그리기 + RGBCMY 색상 변경
+
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
